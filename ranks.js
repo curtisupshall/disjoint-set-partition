@@ -35,6 +35,38 @@ const B = (i, j) => {
     }
 }
 
+const B2 = (i, j) => {
+    if (i < 0 || j < 0) {
+        throw new Error("Neither i nor j can be less than 0.");
+    }
+    if (i == 0) {
+        return j;
+    }
+    else if (j == 0) {
+        return 0;
+    }
+    else if (i == 1) {
+        return Math.pow(2, j);
+    }
+    else {
+        try {
+            return Math.pow(2, B2(i -1, j))
+        } catch (e) {
+            return Infinity;
+        }
+    }
+}
+
+const block2 = (i, j) => {
+    const b = [B2(i, j)];
+    const end = B2(i, j+1) -1;
+    if (end == Infinity) {
+        return b;
+    } else {
+        return [...b, end]
+    }
+}
+
 const findLevel = (r, pr) => {
     let i = 1;
     let j = 0;
