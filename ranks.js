@@ -1,13 +1,11 @@
 let nodes = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K']
 
 const block = (i, j) => {
-    const b = [B(i, j)];
-    const end = B(i, j+1) -1;
-    if (end == Infinity) {
-        return b;
-    } else {
-        return [...b, end]
-    }
+    const start = B(i, j);
+    const end = B(i, j+1) - 1;
+    
+    return [start, end];
+
 }
 
 const B = (i, j) => {
@@ -28,7 +26,7 @@ const B = (i, j) => {
     }
     else {
         try {
-            return B(i -1, B(i, j -1));
+            return B(i - 1, B(i, j - 1));
         } catch (e) {
             return Infinity;
         }
@@ -72,7 +70,7 @@ const findLevel = (r, pr) => {
     let j = 0;
     let result = [];
     while(true) {
-        result = block(i, j++);
+        result = block(i, j);
         if (result[0] == Infinity) {
             throw new Error("Not found");
         }
@@ -83,6 +81,8 @@ const findLevel = (r, pr) => {
         if (r < result[0]) {
             i ++;
             j = 0;
+        } else {
+            j ++;
         }
     }
 }
@@ -90,3 +90,19 @@ const findLevel = (r, pr) => {
 console.log(nodes.map((n, index) => {
     return `${n}: ${findLevel(index, index + 1)}`
 }))
+
+for (let i = 0; i <= 3; i ++) {
+    for (let j = 0; j <=3; j ++) {
+        //console.log(`B (${i}, ${j}) = ${B(i, j)}`)
+        console.log(`block(${i}, ${j}) = [ ${block(i, j)} ]`)
+        //console.log(`B2(${i}, ${j}) = ${B2(i, j)}`)
+    }
+}
+
+const logstar = (n) => {
+    if (n <= 1) {
+        return 0;
+    }
+    return 1 + logstar(Math.log2(n));
+}
+
